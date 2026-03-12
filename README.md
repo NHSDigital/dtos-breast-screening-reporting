@@ -1,8 +1,5 @@
 # Breast Screening Reporting
 
-[![CI/CD Pull Request](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml/badge.svg)](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=repository-template&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=repository-template)
-
 Welcome to the Breast Screening Reporting team's repository!
 
 ## Table of Contents
@@ -21,7 +18,7 @@ Welcome to the Breast Screening Reporting team's repository!
 
 ## Setup
 
- This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
+This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
 
 Clone the repository (SSH)
 
@@ -34,6 +31,7 @@ git clone git@github.com:NHSDigital/dtos-breast-screening-reporting.git
 The following software packages, or their equivalents, are expected to be installed and configured:
 
 - [Docker](https://www.docker.com/) container runtime or a compatible tool, e.g. [Podman](https://podman.io/),
+- [asdf](https://asdf-vm.com/) version manager,
 - [GNU make](https://www.gnu.org/software/make/) 3.82 or later,
 - pip package manager for Python
 
@@ -83,18 +81,33 @@ TODO: We need to make these decisions
 
 Branch names must adhere to the following format:
 
-- One of 'build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test'
-- /
-- Ticket number
-- Description of branch
+```
+<type>/<ticket-number>-<description>
+```
 
-For example: feat/DSTA-1234-add-a-new-feature
+Where `<type>` is one of:
+
+```
+build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
+```
+
+For example:
+
+```
+feat/DSTA-1234-add-a-new-feature
+```
 
 Commit messages must adhere to the following format:
 
-- Ticket number: description of changes
+```
+<ticket-number>: <description>
+```
 
-For example: DSTA-1234: add a part of a new feature
+For example:
+
+```
+DSTA-1234: add a part of a new feature
+```
 
 ## Contacts
 

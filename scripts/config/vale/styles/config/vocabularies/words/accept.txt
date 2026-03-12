@@ -1,8 +1,6 @@
 [A-Z]+s
 Bitwarden
 bot
-ci
-perf
 Cyber
 Dependabot
 Gitleaks
