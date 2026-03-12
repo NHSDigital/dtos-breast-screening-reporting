@@ -81,31 +81,31 @@ TODO: We need to make these decisions
 
 Branch names must adhere to the following format:
 
-```
+```text
 <type>/<ticket-number>-<description>
 ```
 
 Where `<type>` is one of:
 
-```
+```text
 build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
 ```
 
 For example:
 
-```
+```text
 feat/DSTA-1234-add-a-new-feature
 ```
 
 Commit messages must adhere to the following format:
 
-```
+```text
 <ticket-number>: <description>
 ```
 
 For example:
 
-```
+```text
 DSTA-1234: add a part of a new feature
 ```
 
