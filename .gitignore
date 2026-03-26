@@ -11,3 +11,10 @@
 !project.code-workspace
 
 # Please, add your custom content below!
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
