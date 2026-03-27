@@ -1,0 +1,20 @@
+name: "Deploy Azure Storage account and Raw container"
+on:
+  push:
+    branches:
+      - "feat/DSTA-506-azure-storage-terraform"
+      - "main"
+
+jobs:
+  validate:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: terraform init
+        run: terraform -chdir=terraform_testing init
+      - name: terraform apply
+        run: terraform -chdir=terraform_testing apply -auto-approve
+
