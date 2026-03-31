@@ -23,9 +23,9 @@ jobs:
       - name: install terraform
         uses: hashicorp/setup-terraform@v3
       - name: terraform init
-        run: terraform -chdir=terraform_testing init
+        run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform plan
-        run: terraform -chdir=terraform_testing plan
+        run: terraform -chdir=infrastructure/environments/dev plan
 
   apply:
     name: "Terraform Apply"
@@ -38,7 +38,7 @@ jobs:
       - name: install terraform
         uses: hashicorp/setup-terraform@v3
       - name: terraform init
-        run: terraform -chdir=terraform_testing init
+        run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform apply
-        run: terraform -chdir=terraform_testing apply -auto-approve
+        run: terraform -chdir=infrastructure/environments/dev apply -auto-approve
 

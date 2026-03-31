@@ -6,12 +6,7 @@ terraform {
     }
   }
 
-  backend "azurerm" {
-    resource_group_name  = "breast-screening-reporting"
-    storage_account_name = "bsrterraform"
-    container_name       = "tfstate"
-    key                  = "azure-storage.tfstate"
-  }
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
