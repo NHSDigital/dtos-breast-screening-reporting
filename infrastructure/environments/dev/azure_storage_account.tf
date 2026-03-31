@@ -16,7 +16,7 @@ provider "azurerm" {
 locals {
   resource_group  = "breast-screening-reporting"
   location        = "uksouth"
-  storage_account = "bsrtestdatalaketerraform"
+  storage_account = "bsrtestdatalake"
   container       = "raw"
 }
 
@@ -28,6 +28,10 @@ resource "azurerm_storage_account" "datalake" {
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
   is_hns_enabled           = true
+
+  allow_nested_items_to_be_public  = false
+  cross_tenant_replication_enabled = false
+  min_tls_version                  = "TLS1_2"
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "raw" {

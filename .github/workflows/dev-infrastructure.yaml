@@ -1,4 +1,4 @@
-name: "Deploy Azure Storage account and Raw container"
+name: "Deploy Dev Infrastructure"
 on:
   push:
     branches:
