@@ -2,11 +2,20 @@ name: "Deploy Azure Storage account and Raw container"
 on:
   push:
     branches:
-      - "feat/DSTA-506-azure-storage-terraform"
+      - "main"
+  pull_request:
+    branches:
       - "main"
 
+env:
+  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
 jobs:
-  validate:
+  plan:
+    name: "Terraform Plan"
     runs-on: "ubuntu-latest"
     steps:
       - name: checkout repo
@@ -15,16 +24,21 @@ jobs:
         uses: hashicorp/setup-terraform@v3
       - name: terraform init
         run: terraform -chdir=terraform_testing init
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      - name: terraform plan
+        run: terraform -chdir=terraform_testing plan
+
+  apply:
+    name: "Terraform Apply"
+    runs-on: "ubuntu-latest"
+    needs: [plan]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: install terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: terraform init
+        run: terraform -chdir=terraform_testing init
       - name: terraform apply
         run: terraform -chdir=terraform_testing apply -auto-approve
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 

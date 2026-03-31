@@ -5,6 +5,13 @@ terraform {
       version = "~> 3.0"
     }
   }
+
+  backend "azurerm" {
+    resource_group_name  = "breast-screening-reporting"
+    storage_account_name = "bsrterraform"
+    container_name       = "tfstate"
+    key                  = "azure-storage.tfstate"
+  }
 }
 
 provider "azurerm" {
@@ -14,7 +21,7 @@ provider "azurerm" {
 locals {
   resource_group  = "breast-screening-reporting"
   location        = "uksouth"
-  storage_account = "bsrtestdatalaketerraform"  # must be globally unique, lowercase, no hyphens
+  storage_account = "bsrtestdatalaketerraform"
   container       = "raw"
 }
 
