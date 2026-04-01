@@ -21,7 +21,7 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v4
       - name: install terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
       - name: terraform init
         run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform plan
@@ -36,7 +36,7 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v4
       - name: install terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
       - name: terraform init
         run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform apply
