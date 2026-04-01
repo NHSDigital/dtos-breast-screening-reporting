@@ -14,16 +14,17 @@ provider "azurerm" {
 }
 
 locals {
-  resource_group  = "breast-screening-reporting"
-  location        = "uksouth"
-  storage_account = "bsrtestdatalake"
-  container       = "raw"
+  resource_group = "breast-screening-reporting"
+}
+
+data "azurerm_resource_group" "main" {
+  name = local.resource_group
 }
 
 resource "azurerm_storage_account" "datalake" {
-  name                     = local.storage_account
+  name                     = "bsrtestdatalake"
   resource_group_name      = local.resource_group
-  location                 = local.location
+  location                 = data.azurerm_resource_group.main.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
@@ -35,6 +36,6 @@ resource "azurerm_storage_account" "datalake" {
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "raw" {
-  name               = local.container
+  name               = "raw"
   storage_account_id = azurerm_storage_account.datalake.id
 }
