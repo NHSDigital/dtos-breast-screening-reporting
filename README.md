@@ -61,6 +61,14 @@ Installation and configuration of the toolchain dependencies
 make config
 ```
 
+A list of recommended VS Code extensions is provided in [.vscode/extensions.json](.vscode/extensions.json). To install them all at once, open the Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Linux/Windows) and run:
+
+```text
+@recommended
+```
+
+Then click **Install Workspace Recommended Extensions** (the cloud icon at the top of the Extensions panel).
+
 ## Usage
 
 TODO: We need to make these decisions
