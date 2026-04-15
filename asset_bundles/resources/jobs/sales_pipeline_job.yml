@@ -1,0 +1,15 @@
+resources:
+  jobs:
+    sales_pipeline_job:
+      name: sales-pipeline-daily
+      tasks:
+        - task_key: run_dlt_pipeline
+          pipeline_task:
+            # Reference by DABs resource key — no hardcoded pipeline ID
+            pipeline_id: ${resources.pipelines.sales_pipeline.id}
+      schedule:
+        quartz_cron_expression: "0 20 14 * * ?"
+        timezone_id: Europe/London
+      email_notifications:
+        on_failure:
+          - sam.walsh6@nhs.net

@@ -1,0 +1,43 @@
+name: Deploy Databricks Bundle
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - asset_bundles/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r asset_bundles/requirements.txt
+
+      - name: Run unit tests
+        run: cd asset_bundles && pytest tests/unit/
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Deploy bundle
+        working-directory: asset_bundles
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        run: databricks bundle deploy -t ci

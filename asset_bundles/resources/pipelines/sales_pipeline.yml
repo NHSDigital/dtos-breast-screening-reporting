@@ -1,0 +1,18 @@
+resources:
+  pipelines:
+    sales_pipeline:
+      name: sales-ingestion-pipeline
+      catalog: ${var.catalog}
+      target: ${var.bronze_schema}
+      serverless: true
+      libraries:
+        - file:
+            path: ../../src/pipelines/sales_pipeline.py
+      # Schema names are passed in as config so the Python can resolve them at
+      # runtime. In dev mode DABs substitutes the current user's short name,
+      # giving each developer fully isolated schemas within the shared catalog.
+      configuration:
+        pipeline.bronze_schema: ${var.bronze_schema}
+        pipeline.silver_schema: ${var.silver_schema}
+        pipeline.gold_schema: ${var.gold_schema}
+      channel: CURRENT
