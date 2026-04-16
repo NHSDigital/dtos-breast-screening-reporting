@@ -81,3 +81,31 @@ resource "databricks_grants" "dev_catalog" {
     privileges = ["USE CATALOG", "CREATE SCHEMA"]
   }
 }
+
+# Allow developers to use and query the shared CI schemas
+resource "databricks_grants" "bronze_schema" {
+  schema = "${databricks_catalog.dev.name}.${databricks_schema.bronze.name}"
+
+  grant {
+    principal  = "BSR-Digital-Developers"
+    privileges = ["USE SCHEMA", "SELECT"]
+  }
+}
+
+resource "databricks_grants" "silver_schema" {
+  schema = "${databricks_catalog.dev.name}.${databricks_schema.silver.name}"
+
+  grant {
+    principal  = "BSR-Digital-Developers"
+    privileges = ["USE SCHEMA", "SELECT"]
+  }
+}
+
+resource "databricks_grants" "gold_schema" {
+  schema = "${databricks_catalog.dev.name}.${databricks_schema.gold.name}"
+
+  grant {
+    principal  = "BSR-Digital-Developers"
+    privileges = ["USE SCHEMA", "SELECT"]
+  }
+}
