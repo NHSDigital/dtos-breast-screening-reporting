@@ -77,7 +77,7 @@ resource "databricks_grants" "dev_catalog" {
   catalog = databricks_catalog.dev.name
 
   grant {
-    principal  = "account users"
+    principal  = "BSR-Digital-Developers"
     privileges = ["USE CATALOG", "CREATE SCHEMA"]
   }
 }
