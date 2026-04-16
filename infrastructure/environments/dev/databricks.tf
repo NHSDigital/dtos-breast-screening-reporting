@@ -48,7 +48,7 @@ resource "databricks_external_location" "raw" {
 
 # Dev catalog
 resource "databricks_catalog" "dev" {
-  name         = "bsr_dev"
+  name         = "devs"
   comment      = "Development catalog for breast screening reporting"
   storage_root = "abfss://raw@${azurerm_storage_account.datalake.name}.dfs.core.windows.net/unity-catalog"
 }
@@ -71,7 +71,7 @@ resource "databricks_schema" "gold" {
 
 # ── Grants ────────────────────────────────────────────────────────────────────
 
-# Allow all workspace users to create their own per-dev schemas in bsr_dev
+# Allow all workspace users to create their own per-dev schemas in devs
 # (DABs mode: development deploys to bronze_<username>, silver_<username> etc.)
 resource "databricks_grants" "dev_catalog" {
   catalog = databricks_catalog.dev.name
