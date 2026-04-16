@@ -7,7 +7,7 @@ include:
 variables:
   catalog:
     description: The catalog for the workspace
-    default: bsr_dev
+    default: devs
   bronze_schema:
     description: Schema for raw ingested data
     default: bronze
@@ -26,7 +26,7 @@ targets:
       host: https://adb-7405612282357000.0.azuredatabricks.net
       profile: dev
     variables:
-      catalog: bsr_dev
+      catalog: devs
       # Per-dev schema isolation: each developer writes to their own schemas
       bronze_schema: bronze_${workspace.current_user.short_name}
       silver_schema: silver_${workspace.current_user.short_name}
@@ -36,7 +36,7 @@ targets:
     # Used by GitHub Actions (SP auth via DATABRICKS_HOST, DATABRICKS_CLIENT_ID,
     # DATABRICKS_CLIENT_SECRET env vars — no mode: development, no username prefix)
     variables:
-      catalog: bsr_dev
+      catalog: devs
       bronze_schema: bronze
       silver_schema: silver
       gold_schema: gold
