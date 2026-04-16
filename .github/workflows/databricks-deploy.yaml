@@ -32,7 +32,7 @@ jobs:
         run: cd asset_bundles && pytest tests/unit/
 
       - name: Install Databricks CLI
-        uses: databricks/setup-cli@main
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Deploy bundle
         working-directory: asset_bundles
