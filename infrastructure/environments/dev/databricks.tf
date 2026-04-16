@@ -1,12 +1,5 @@
 # ── Workspace ────────────────────────────────────────────────────────────────
 
-# Outputs the identity Terraform is running as — useful for debugging auth
-data "databricks_current_user" "me" {}
-
-output "databricks_running_as" {
-  value = data.databricks_current_user.me.user_name
-}
-
 resource "azurerm_databricks_workspace" "main" {
   name                        = "test-databricks-env-2"
   resource_group_name         = local.resource_group
