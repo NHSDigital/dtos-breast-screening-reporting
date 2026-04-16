@@ -12,6 +12,10 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  # Databricks provider uses its own env vars (separate from ARM_*)
+  DATABRICKS_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  DATABRICKS_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  DATABRICKS_AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
 jobs:
   plan:
