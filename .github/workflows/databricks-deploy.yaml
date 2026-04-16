@@ -1,11 +1,9 @@
 name: Deploy Databricks Bundle
 
 on:
-  push:
+  push: # TODO: restrict to main once testing is complete
     branches:
-      - main
-    paths:
-      - asset_bundles/**
+      - "**"
 
 jobs:
   deploy:

@@ -1,8 +1,8 @@
 name: "Deploy Dev Infrastructure"
 on:
-  push:
+  push: # TODO: restrict to main once testing is complete
     branches:
-      - "main"
+      - "**"
   pull_request:
     branches:
       - "main"
