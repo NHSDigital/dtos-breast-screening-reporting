@@ -40,4 +40,5 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          DATABRICKS_AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         run: databricks bundle deploy -t ci
