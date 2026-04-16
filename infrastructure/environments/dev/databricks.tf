@@ -68,3 +68,16 @@ resource "databricks_schema" "gold" {
   catalog_name = databricks_catalog.dev.name
   name         = "gold"
 }
+
+# ── Grants ────────────────────────────────────────────────────────────────────
+
+# Allow all workspace users to create their own per-dev schemas in bsr_dev
+# (DABs mode: development deploys to bronze_<username>, silver_<username> etc.)
+resource "databricks_grants" "dev_catalog" {
+  catalog = databricks_catalog.dev.name
+
+  grant {
+    principal  = "account users"
+    privileges = ["USE CATALOG", "CREATE SCHEMA"]
+  }
+}

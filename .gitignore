@@ -18,3 +18,11 @@
 *.tfstate.*
 crash.log
 crash.*.log
+
+# Databricks — per-dev local project config (workspace URL, cluster selection)
+.databricks/
+
+# Python
+.venv/
+__pycache__/
+*.pyc

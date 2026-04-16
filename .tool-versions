@@ -1,5 +1,6 @@
 # This file is for you! Please, updated to the versions agreed by your team.
 
+java temurin-17.0.10+7
 terraform 1.7.0
 pre-commit 3.6.0
 vale 3.6.0
