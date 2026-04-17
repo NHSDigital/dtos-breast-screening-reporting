@@ -109,3 +109,23 @@ resource "databricks_grants" "gold_schema" {
     privileges = ["USE SCHEMA", "SELECT"]
   }
 }
+
+# Allow developers to read raw files via the external location / storage credential
+# (required for DLT pipelines that use Auto Loader against ADLS)
+resource "databricks_grants" "storage_credential" {
+  storage_credential = databricks_storage_credential.main.id
+
+  grant {
+    principal  = "BSR-Digital-Developers"
+    privileges = ["READ FILES"]
+  }
+}
+
+resource "databricks_grants" "external_location_raw" {
+  external_location = databricks_external_location.raw.id
+
+  grant {
+    principal  = "BSR-Digital-Developers"
+    privileges = ["READ FILES"]
+  }
+}
