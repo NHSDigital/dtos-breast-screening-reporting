@@ -71,8 +71,6 @@ jobs:
         run: |
           echo "### ✅ Deployed" >> $GITHUB_STEP_SUMMARY
           echo "| Key | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Bundle | \`${{ github.event.inputs.bundle_name }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | \`${{ github.event.inputs.environment }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Approved by | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
 
