@@ -3,6 +3,9 @@ Bitwarden
 bot
 Cyber
 Dependabot
+dev
+Entra
+GitHub
 Gitleaks
 Grype
 idempotence
@@ -11,8 +14,10 @@ Octokit
 onboarding
 Podman
 Python
+repo
 sed
 Syft
 Terraform
 toolchain
 Trufflehog
+yml

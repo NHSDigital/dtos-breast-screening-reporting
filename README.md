@@ -1,18 +1,20 @@
 # Breast Screening Reporting
 
-Welcome to the Breast Screening Reporting team's repository!
+Welcome to the Breast Screening Reporting team's repository. This repo contains data pipelines and reports for the NHS Breast Screening programme. We use [Delta Live Tables (DLT)](https://docs.databricks.com/en/delta-live-tables/index.html) on Azure Databricks to ingest, clean and aggregate screening data through a **bronze → silver → gold** medallion architecture, deployed via [Databricks Asset Bundles (DABs)](https://docs.databricks.com/en/dev-tools/bundles/index.html).
 
 ## Table of Contents
 
 - [Breast Screening Reporting](#breast-screening-reporting)
   - [Table of Contents](#table-of-contents)
   - [Setup](#setup)
-    - [Prerequisites](#prerequisites)
-    - [Configuration](#configuration)
-  - [Usage](#usage)
-    - [Testing](#testing)
-  - [Design](#design)
-  - [Branch naming and Commit messages](#branch-naming-and-commit-messages)
+  - [Prerequisites](#prerequisites)
+  - [Quick start](#quick-start)
+  - [Repository layout](#repository-layout)
+  - [Development workflow](#development-workflow)
+  - [Testing](#testing)
+    - [Locally](#locally)
+    - [On Databricks (dev)](#on-databricks-dev)
+  - [Contributing](#contributing)
   - [Contacts](#contacts)
   - [Licence](#licence)
 
@@ -20,106 +22,100 @@ Welcome to the Breast Screening Reporting team's repository!
 
 This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
 
-Clone the repository (SSH)
+## Prerequisites
+
+| Tool | Notes |
+|------|-------|
+| [Databricks CLI](https://docs.databricks.com/en/dev-tools/cli/install.html) | `brew install databricks` on macOS |
+| [Python 3](https://www.python.org/) | For DLT code, tests and Git hooks |
+| [GNU make](https://www.gnu.org/software/make/) ≥ 3.82 | macOS default is older — `brew install make` |
+| [asdf](https://asdf-vm.com/) | Version manager |
+
+> [!NOTE]
+> On macOS the default GNU make is too old. After `brew install make`, follow the Homebrew output to update your `$PATH`.
+
+VS Code users: install the workspace-recommended extensions via the Command Palette → `@recommended` → **Install Workspace Recommended Extensions**.
+
+## Quick start
 
 ```shell
+# 1. Clone
 git clone git@github.com:NHSDigital/dtos-breast-screening-reporting.git
+cd dtos-breast-screening-reporting
+
+# 2. Install toolchain & Python deps
+make config
+
+# 3. Configure Databricks CLI auth (one-time)
+databricks configure --profile dev
+
+# enter workspace URL when prompted (see asset_bundles/databricks.yml)
+
+# 4. Deploy your personal dev pipeline
+cd asset_bundles
+databricks bundle deploy -t dev
+
+# 5. Run it
+databricks bundle run -t dev sales_pipeline
 ```
 
-### Prerequisites
+Each developer gets isolated schemas (e.g. `bronze_<your_short_name>`) so you can deploy freely without affecting others.
 
-The following software packages, or their equivalents, are expected to be installed and configured:
+## Repository layout
 
-- [Docker](https://www.docker.com/) container runtime or a compatible tool, e.g. [Podman](https://podman.io/),
-- [asdf](https://asdf-vm.com/) version manager,
-- [GNU make](https://www.gnu.org/software/make/) 3.82 or later,
-- pip package manager for Python
+```text
+asset_bundles/              ← Databricks Asset Bundles project
+  databricks.yml            ← bundle config & target definitions
+  resources/                ← DLT pipeline + job YAML definitions
+  src/pipelines/            ← DLT pipeline Python code
+  tests/unit/               ← local PySpark unit tests
+infrastructure/             ← Terraform (workspace, storage, Unity Catalog)
+scripts/                    ← CI tooling, Git hooks, linters
+docs/                       ← contributing guide & user guides
+```
 
-> [!NOTE]<br>
-> The version of GNU make available by default on macOS is earlier than 3.82. You will need to upgrade it or certain `make` tasks will fail. On macOS, you will need [Homebrew](https://brew.sh/) installed, then to install `make`, like so:
->
-> ```shell
-> brew install make
-> ```
->
-> You will then see instructions to fix your [`$PATH`](https://github.com/nhs-england-tools/dotfiles/blob/main/dot_path.tmpl) variable to make the newly installed version available. If you are using [dotfiles](https://github.com/nhs-england-tools/dotfiles), this is all done for you.
+## Development workflow
 
-- [GNU sed](https://www.gnu.org/software/sed/) and [GNU grep](https://www.gnu.org/software/grep/) are required for the scripted command-line output processing,
-- [GNU coreutils](https://www.gnu.org/software/coreutils/) and [GNU binutils](https://www.gnu.org/software/binutils/) may be required to build dependencies like Python, which may need to be compiled during installation,
+The day-to-day loop is:
 
-> [!NOTE]<br>
-> For macOS users, installation of the GNU toolchain has been scripted and automated as part of the `dotfiles` project. Please see this [script](https://github.com/nhs-england-tools/dotfiles/blob/main/assets/20-install-base-packages.macos.sh) for details.
+1. Create a branch — see [Contributing](docs/CONTRIBUTING.md)
+2. Write or update DLT pipeline code in `asset_bundles/src/pipelines/`
+3. Add resource definitions in `asset_bundles/resources/` if needed
+4. Add unit tests to `asset_bundles/tests/unit`
+5. Run test suite locally: `make test`
+6. Deploy to your personal dev schemas: `databricks bundle deploy -t dev`
+7. Run on Databricks: `databricks bundle run -t dev <pipeline_name>`
+8. Open a PR — see [Contributing](docs/CONTRIBUTING.md)
 
-- [Python](https://www.python.org/) required to run Git hooks,
-- [`jq`](https://jqlang.github.io/jq/) a lightweight and flexible command-line JSON processor.
+## Testing
 
-### Configuration
-
-Installation and configuration of the toolchain dependencies
+### Locally
 
 ```shell
-make config
+# Local tests
+make test
+
+# Pre-commit hooks (secrets scan, linting, formatting)
+make githooks-run
 ```
 
-A list of recommended VS Code extensions is provided in [.vscode/extensions.json](.vscode/extensions.json). To install them all at once, open the Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Linux/Windows) and run:
+### On Databricks (dev)
 
-```text
-@recommended
+```shell
+cd asset_bundles
+databricks bundle deploy -t dev
+databricks bundle run -t dev <pipeline_name>
 ```
 
-Then click **Install Workspace Recommended Extensions** (the cloud icon at the top of the Extensions panel).
+Review the pipeline run in the Databricks UI to verify data flows through bronze → silver → gold correctly.
 
-## Usage
+## Contributing
 
-TODO: We need to make these decisions
-
-### Testing
-
-To run tests on your local branch (these are the same tests that run automatically on commit, and remotely on GitHub)
-
-> ```shell
-> make githooks-run
-> ```
-
-## Design
-
-TODO: We need to make these decisions
-
-## Branch naming and Commit messages
-
-Branch names must adhere to the following format:
-
-```text
-<type>/<ticket-number>-<description>
-```
-
-Where `<type>` is one of:
-
-```text
-build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
-```
-
-For example:
-
-```text
-feat/DSTA-1234-add-a-new-feature
-```
-
-Commit messages must adhere to the following format:
-
-```text
-<ticket-number>: <description>
-```
-
-For example:
-
-```text
-DSTA-1234: add a part of a new feature
-```
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for branch naming, commit message conventions, PR workflow and coding standards.
 
 ## Contacts
 
-Contact screening-breast-reporting on Slack
+Slack: **screening-breast-reporting**
 
 ## Licence
 
