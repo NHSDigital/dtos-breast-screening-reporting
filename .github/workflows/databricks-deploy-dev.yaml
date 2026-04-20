@@ -23,10 +23,11 @@ jobs:
   # This job targets the GitHub Environment, which has a
   # "Required reviewers" protection rule configured in your repo settings.
   # The workflow pauses here until an approved reviewer clicks Approve.
+  # As its only dev we will auto-approve to speed up testing, but in a team setting this is where you would have your reviewers approve the deployment.
   await-approval:
     name: Await approval
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}   # 👈 triggers the gate
+    environment: ${{ github.event.inputs.environment }}   # triggers the gate
     steps:
       - name: Log intent
         run: |
