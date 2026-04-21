@@ -47,7 +47,7 @@ cd dtos-breast-screening-reporting
 make config
 
 # 3. Configure Databricks CLI auth (one-time)
-databricks configure --profile dev
+databricks auth login --profile dev
 
 # enter workspace URL when prompted (see asset_bundles/databricks.yml)
 
