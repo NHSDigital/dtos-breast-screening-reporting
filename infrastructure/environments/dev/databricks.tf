@@ -30,7 +30,8 @@ resource "azurerm_role_assignment" "access_connector_storage" {
 
 # Storage credential — backed by the Access Connector's managed identity
 resource "databricks_storage_credential" "main" {
-  name = "bsrtestdatalake_contributor"
+  name  = "bsrtestdatalake_contributor"
+  owner = data.azurerm_client_config.current.client_id
 
   azure_managed_identity {
     access_connector_id = azurerm_databricks_access_connector.main.id
