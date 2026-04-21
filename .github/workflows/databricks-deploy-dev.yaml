@@ -56,8 +56,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r asset_bundles/requirements.txt
 
-      - name: Installing databricks CLI
-        uses: databricks/setup-cli@main
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Deploy asset bundle
         working-directory: asset_bundles
@@ -96,8 +96,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r asset_bundles/requirements.txt
 
-      - name: Installing databricks CLI
-        uses: databricks/setup-cli@main
+      - name: Install Databricks CLI
+        run: curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
       - name: Destroy asset bundle
         working-directory: asset_bundles
