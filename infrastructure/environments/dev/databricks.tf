@@ -1,5 +1,10 @@
 # ── Workspace ────────────────────────────────────────────────────────────────
 
+data "databricks_group" "developers" {
+  display_name = "BSR-Digital-Developers"
+  depends_on   = [azurerm_databricks_workspace.main]
+}
+
 resource "azurerm_databricks_workspace" "main" {
   name                        = "test-databricks-env-2"
   resource_group_name         = local.resource_group
@@ -79,7 +84,7 @@ resource "databricks_grants" "dev_catalog" {
   catalog = databricks_catalog.dev.name
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["USE CATALOG", "CREATE SCHEMA"]
   }
 }
@@ -89,7 +94,7 @@ resource "databricks_grants" "bronze_schema" {
   schema = "${databricks_catalog.dev.name}.${databricks_schema.bronze.name}"
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["USE SCHEMA", "SELECT"]
   }
 }
@@ -98,7 +103,7 @@ resource "databricks_grants" "silver_schema" {
   schema = "${databricks_catalog.dev.name}.${databricks_schema.silver.name}"
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["USE SCHEMA", "SELECT"]
   }
 }
@@ -107,7 +112,7 @@ resource "databricks_grants" "gold_schema" {
   schema = "${databricks_catalog.dev.name}.${databricks_schema.gold.name}"
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["USE SCHEMA", "SELECT"]
   }
 }
@@ -118,7 +123,7 @@ resource "databricks_grants" "storage_credential" {
   storage_credential = databricks_storage_credential.main.id
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["READ FILES"]
   }
 }
@@ -127,7 +132,7 @@ resource "databricks_grants" "external_location_raw" {
   external_location = databricks_external_location.raw.id
 
   grant {
-    principal  = "BSR-Digital-Developers"
+    principal  = data.databricks_group.developers.display_name
     privileges = ["READ FILES"]
   }
 }
