@@ -21,7 +21,6 @@ If you wish to notify us of a vulnerability via email, please include detailed i
 
 You can reach us at:
 
-- _[ A product team email address ]_
 - [cybersecurity@nhs.net](cybersecurity@nhs.net)
 
 ### NCSC

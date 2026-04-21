@@ -1,5 +1,8 @@
 {
   "recommendations": [
+    "databricks.databricks",
+    "ms-python.python",
+    "ms-python.pylance",
     "alefragnani.bookmarks",
     "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",

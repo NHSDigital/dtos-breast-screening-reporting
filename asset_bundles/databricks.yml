@@ -1,0 +1,42 @@
+bundle:
+  name: breast-screening-reporting
+
+include:
+  - resources/**/*.yml
+
+variables:
+  catalog:
+    description: The catalog for the workspace
+    default: devs
+  bronze_schema:
+    description: Schema for raw ingested data
+    default: bronze
+  silver_schema:
+    description: Schema for cleaned/validated data
+    default: silver
+  gold_schema:
+    description: Schema for aggregated reporting data
+    default: gold
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-7405612282357000.0.azuredatabricks.net
+      profile: dev
+    variables:
+      catalog: devs
+      # Per-dev schema isolation: each developer writes to their own schemas
+      bronze_schema: bronze_${workspace.current_user.short_name}
+      silver_schema: silver_${workspace.current_user.short_name}
+      gold_schema: gold_${workspace.current_user.short_name}
+
+  ci:
+    # Used by GitHub Actions (SP auth via DATABRICKS_HOST, DATABRICKS_CLIENT_ID,
+    # DATABRICKS_CLIENT_SECRET env vars — no mode: development, no username prefix)
+    variables:
+      catalog: devs
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold

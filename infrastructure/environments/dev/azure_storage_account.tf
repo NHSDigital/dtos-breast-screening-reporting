@@ -1,22 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0"
-    }
-  }
-
-  backend "azurerm" {}
-}
-
-provider "azurerm" {
-  features {}
-}
-
-locals {
-  resource_group = "breast-screening-reporting"
-}
-
 data "azurerm_resource_group" "main" {
   name = local.resource_group
 }

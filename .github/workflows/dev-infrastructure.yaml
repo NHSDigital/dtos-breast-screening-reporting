@@ -2,10 +2,10 @@ name: "Deploy Dev Infrastructure"
 on:
   push:
     branches:
-      - "main"
+      - main
   pull_request:
     branches:
-      - "main"
+      - main
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -25,7 +25,7 @@ jobs:
       - name: terraform init
         run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform plan
-        run: terraform -chdir=infrastructure/environments/dev plan
+        run: terraform -chdir=infrastructure/environments/dev plan -var-file=dev.tfvars
 
   apply:
     name: "Terraform Apply"
@@ -40,5 +40,5 @@ jobs:
       - name: terraform init
         run: terraform -chdir=infrastructure/environments/dev init -backend-config=dev.tfbackend
       - name: terraform apply
-        run: terraform -chdir=infrastructure/environments/dev apply -auto-approve
+        run: terraform -chdir=infrastructure/environments/dev apply -auto-approve -var-file=dev.tfvars
 
