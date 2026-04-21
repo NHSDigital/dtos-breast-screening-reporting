@@ -45,6 +45,7 @@ resource "databricks_external_location" "raw" {
   name            = "bsrtestdatalake_raw"
   url             = "abfss://raw@${azurerm_storage_account.datalake.name}.dfs.core.windows.net/"
   credential_name = databricks_storage_credential.main.name
+  owner           = data.azurerm_client_config.current.client_id
 }
 
 # Dev catalog
